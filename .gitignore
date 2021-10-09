@@ -1,8 +1,12 @@
 # Ignore all
 *
+
+# Don't ignore directories, so we can recurse into them
+!*/
+
 # Unignore all with extensions py and gitignore
 !**/*.py
-!**/*.gitignore
+!*.gitignore
 !**/*.ipynb
 !**/*.xls
 !**/*.md
