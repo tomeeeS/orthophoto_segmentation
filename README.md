@@ -6,7 +6,7 @@ Eredetileg [ezzel](https://github.com/reachsumit/deep-unet-for-satellite-image-s
 
 ### Forrásfájlok
 Futtathatók: 
-- **train_unet.py**: Neurális hálózatok tanítása
+- **train.py**: Neurális hálózatok tanítása
 - **evaluate**: Betanított modellek kiértékelése a teszt képek halmazán (néhány száz kép, ill. azokból generált kisebb képrészlet (patch)), confusion matrix kirajzolása, lementése
 - **predict**: Pár tesztképre való kirajzolás az eredeti, a referencia és a modell(ek) által adott eredménnyel
 - **tpu-geonrw.ipynb**: Kaggle-ön, TPU-n való tanításhoz, egybe van benne ömlesztve pár fájlomból a tartalom, és módosítva hogy mehessen TPU-n. A Kaggle-re feltöltött adathalmazom amit használ [itt](https://www.kaggle.com/tomisajti/geonrw-patches) van.
