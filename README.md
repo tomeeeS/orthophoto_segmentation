@@ -1,27 +1,22 @@
-# Deep UNet for satellite image segmentation
+## Bemenetek
+A deep-unet-for-satellite-image-segmentation-ben levő kódban a tanításhoz szükséges képek [innen](https://ieee-dataport.org/open-access/geonrw) tölthetőek le, 'data' nevű mappába kell rakni őket úgy, hogy azon belül 'images' nevűbe az eredeti képeket, 'elevation' nevűbe a magassági adatokat, és 'masks' nevűbe a referencia adatokat. A méretük miatt nem akarom velük terhelni a repot.  
 
-![banner](https://i.imgur.com/hjITfpc.png)!
+## Kód
+Eredetileg [ezzel](https://github.com/reachsumit/deep-unet-for-satellite-image-segmentation) a kódbázissal kezdtem dolgozni, ami műholdkép szegmentációt végzett; azóta ezt nagymértékben átdolgoztam és bővítettem.
 
-## About this project
-This is a Keras based implementation of a deep UNet that performs satellite image segmentation.
+### Forrásfájlok
+Futtathatók: 
+- **train_unet.py**: Neurális hálózatok tanítása
+- **evaluate**: Betanított modellek kiértékelése a teszt képek halmazán (néhány száz kép, ill. azokból generált kisebb képrészlet (patch)), confusion matrix kirajzolása, lementése
+- **predict**: Pár tesztképre való kirajzolás az eredeti, a referencia és a modell(ek) által adott eredménnyel
+- **tpu-geonrw.ipynb**: Kaggle-ön, TPU-n való tanításhoz, egybe van benne ömlesztve pár fájlomból a tartalom, és módosítva hogy mehessen TPU-n. A Kaggle-re feltöltött adathalmazom amit használ [itt](https://www.kaggle.com/tomisajti/geonrw-patches) van.
 
-## Dataset
-* The dataset consists of 8-band commercial grade satellite imagery taken from SpaceNet dataset.
-* Train collection contains few tiff files for each of the 24 locations.
-* Every location has an 8-channel image containing spectral information of several wavelength channels (red, red edge, coastal, blue, green, yellow, near-IR1 and near-IR2). These files are located in data/mband/ directory.
-* Also available are correctly segmented images of each training location, called mask. These files contain information about 5 different classes: buildings, roads, trees, crops and water (note that original Kaggle contest had 10 classes).
-* Resolution for satellite images s 16-bit. However, mask-files are 8-bit.
 
-## Implementation
-* Deep Unet architecture is employed to perform segmentation.
-* Image augmentation is used for input images to significantly increases train data.
-* Image augmentation is also done while testing, mean results are exported to result.tif image.
-![examples](https://i.imgur.com/34lq5bD.jpg)
-
-**Note:** Training for this model was done on a Tesla P100-PCIE-16GB GPU.
-
-## Prediction Example
-![prediction example](https://i.imgur.com/CalIxTU.png)
-
-## Network architecture
-![Deep Unet Architecture](https://i.imgur.com/zX1r5Rx.png)
+Nem futtathatók:
+- **cfg**: Általánosabb konstansok, állítható hiperparaméterek
+- **losses**: Tanítás során használható hibafüggvények
+- **unet_model** (nem saját kód): U-Net Keras modelles definíciója
+- **patching**: Patch generálás az inputokból ill. referencia adatokból
+- **data_handling**: Adat beolvasás, .tfrec fájl írás, data pipeline augmentációval
+- **smooth_tiled_predictions** (nem saját kód): Eredmény kirajzolásahoz a patch-ekre való kimeneteket csúszóablakosan, egyszerre a patch-méretnél kevesebbet lépve rakjuk össze, nem csak a patchekre való kimeneteket egymás mellé rakva, mert olyankor a szélső pixeleknek nem lenne elég kontextusuk hogy elég jól be lehessen sorolni őket és négyzetrácsos hibák lennének az eredményben
+- **to_objects**: Cseri Ádám kódja a neuronhálók minden pixelt kategóriához soroló kimenetéből "objektumokká" való konvertáláshoz
