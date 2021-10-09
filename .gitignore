@@ -1,7 +1,8 @@
 # Ignore all
 *
 # Unignore all with extensions py and gitignore
-!*.py
-!*.gitignore
-!*.ipynb
-!*.xls
+!**/*.py
+!**/*.gitignore
+!**/*.ipynb
+!**/*.xls
+!**/*.md
